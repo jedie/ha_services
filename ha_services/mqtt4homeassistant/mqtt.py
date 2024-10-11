@@ -13,12 +13,6 @@ from ha_services.mqtt4homeassistant.data_classes import MqttSettings
 logger = logging.getLogger(__name__)
 
 
-def get_client_id():
-    hostname = socket.gethostname()
-    client_id = f'ha_services v{__version__} on {hostname}'
-    return client_id
-
-
 class OnConnectCallback:
     def __init__(self, verbosity: int):
         self.verbosity = verbosity
@@ -41,7 +35,7 @@ class OnConnectCallback:
 
 
 def get_connected_client(settings: MqttSettings, verbosity: int, timeout=10) -> mqtt.Client:
-    client_id = get_client_id()
+    client_id = settings.main_uid
 
     if verbosity:
         print(f'\nConnect [cyan]{settings.host}:{settings.port}[/cyan] as "[magenta]{client_id}[/magenta]"', end='...')
